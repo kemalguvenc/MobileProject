@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth } from "../firebase";
@@ -6,8 +6,12 @@ import { signOut } from 'firebase/auth';
 
 const ProfileScreen = ({ navigation }) => {
 
-	if (!auth.currentUser)
-		navigation.navigate("LoginScreen");
+	useEffect(
+		() => {
+			if (!auth.currentUser)
+				navigation.navigate("LoginScreen");
+		}
+	);
 
 	const logout = () => {
 		signOut(auth).then(() => {
@@ -17,7 +21,6 @@ const ProfileScreen = ({ navigation }) => {
 		});
 	}
 
-	// Profil verileri (örnek, gerçek veritabanından alınacak)
 	const userProfile = {
 		firstName: 'Ahmet',
 		lastName: 'Çelik',
@@ -27,7 +30,6 @@ const ProfileScreen = ({ navigation }) => {
 	};
 
 	const handleEditProfile = () => {
-		// Profil düzenleme ekranına yönlendir
 		navigation.navigate('EditProfileScreen');
 	};
 

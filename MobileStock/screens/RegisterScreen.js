@@ -1,42 +1,36 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { auth, db } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const RegisterScreen = ({ navigation }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [gender, setGender] = useState('');
 	const [birthdate, setBirthdate] = useState('');
 
 	const handleRegister = () => {
-		if (password !== confirmPassword) {
-			Alert.alert('Hata', 'Şifreler uyuşmuyor.');
-			return;
-		}
 
-		auth()
-			.createUserWithEmailAndPassword(email, password)
+		createUserWithEmailAndPassword(auth, email, password)
 			.then(async (userCredential) => {
 				const user = userCredential.user;
 
-				// Kullanıcının diğer bilgilerini Firestore'a kaydet
-				await firestore().collection('users').doc(user.uid).set({
-					firstName,
-					lastName,
-					gender,
-					birthdate,
-				});
+				const data = {
+					'firstName': firstName,
+					'lastName': lastName,
+					'gender': gender,
+					'birthdate': birthdate,
+				}
 
-				// Kayıt başarılı ise kullanıcıyı giriş ekranına yönlendir
-				navigation.navigate('Login');
+				db.collection('userData').doc();
+				ref.set(data);
+
+				navigation.navigate('LoginScreen');
 			})
 			.catch(error => {
-				// Hata durumunda kullanıcıya uyarı göster
 				Alert.alert('Kayıt Başarısız', error.message);
 			});
 	};
@@ -73,13 +67,6 @@ const RegisterScreen = ({ navigation }) => {
 				/>
 				<TextInput
 					style={styles.input}
-					placeholder="Şifreyi Onayla"
-					onChangeText={setConfirmPassword}
-					value={confirmPassword}
-					secureTextEntry
-				/>
-				<TextInput
-					style={styles.input}
 					placeholder="Cinsiyet"
 					onChangeText={setGender}
 					value={gender}
@@ -93,6 +80,9 @@ const RegisterScreen = ({ navigation }) => {
 				<TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
 					<Text style={styles.buttonText}>Kayıt Ol</Text>
 				</TouchableOpacity>
+				<TouchableOpacity style={styles.registerButton} onPress={()=>{navigation.goBack();}}>
+					<Text style={styles.buttonText}>Geri Dön</Text>
+				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
 	);
@@ -102,10 +92,10 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center',
 		backgroundColor: '#597E52',
 	},
 	title: {
+		textAlign: 'center',
 		fontSize: 20,
 		fontWeight: 'bold',
 		marginBottom: 20,
@@ -120,6 +110,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 10,
 		color: '#333',
 		backgroundColor: '#FFFFEC',
+		alignSelf: 'center',
 	},
 	registerButton: {
 		backgroundColor: 'tomato',
@@ -127,6 +118,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		marginTop: 10,
 		width: 265,
+		alignSelf: 'center',
 	},
 	buttonText: {
 		color: '#FFFFEC',

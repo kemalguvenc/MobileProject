@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { auth } from "./firebase";
 
 import HomeScreen from './screens/HomeScreen';
 import PortfolioScreen from './screens/PortfolioScreen';
@@ -12,7 +12,12 @@ import NotificationScreen from './screens/NotificationScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import PopUp from './screens/Pop-up';
+
+var Screen;
+if (auth.currentUser)
+	Screen = ProfileScreen;
+else
+	Screen = LoginScreen;
 
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +58,7 @@ function MyTabs() {
 			/>
 			<Tab.Screen
 				name="ProfileScreen"
-				component={ProfileScreen}
+				component={Screen}
 				options={{
 					tabBarLabel: 'Profil',
 					tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="account" color={color} size={26} />),
@@ -83,6 +88,11 @@ export default function App() {
 				<Stack.Screen
 					name="LoginScreen"
 					component={LoginScreen}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="RegisterScreen"
+					component={RegisterScreen}
 					options={{ headerShown: false }}
 				/>
 			</Stack.Navigator>

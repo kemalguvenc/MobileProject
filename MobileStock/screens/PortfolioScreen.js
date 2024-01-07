@@ -4,7 +4,6 @@ import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PortfolioScreen = () => {
-	// Kullanıcının portföy verileri (örnek, gerçek veritabanından alınacak)
 	const userPortfolio = {
 		symbols: [
 			{ name: 'Dolar', unitValue: 29.78, amount: 100 },
@@ -20,7 +19,6 @@ const PortfolioScreen = () => {
 	};
 
 	const calculateTotalValueInTRY = () => {
-		// Toplam TRY değerini hesapla
 		const totalSymbolsValue = userPortfolio.symbols.reduce((acc, currency) => acc + currency.unitValue * currency.amount, 0);
 		return totalSymbolsValue;
 	};
@@ -38,10 +36,6 @@ const PortfolioScreen = () => {
 	};
 
 	const handleAddConfirm = () => {
-		// Burada yapmak istediğiniz işlemleri gerçekleştirin
-		console.log('Seçilen Sayı:', number);
-
-		// Modal'ı kapat
 		handleAddCloseModal();
 	};
 

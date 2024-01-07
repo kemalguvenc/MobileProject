@@ -5,7 +5,6 @@ import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ProfileScreen = () => {
-	// Profil verileri (örnek, gerçek veritabanından alınacak)
 	const userProfile = {
 		firstName: 'John',
 		lastName: 'Doe',
@@ -26,8 +25,6 @@ const ProfileScreen = () => {
 	};
 
 	const handleEditFavorites = () => {
-		// Favorileri düzenleme ekranına yönlendir
-		// Burada uygun bir ekran adı veya navigasyon işlemi eklemeniz gerekecek
 		alert('Favoriler düzenleme ekranına yönlendiriliyor...');
 	};
 
@@ -44,10 +41,6 @@ const ProfileScreen = () => {
 	};
 
 	const handleAddConfirm = () => {
-		// Burada yapmak istediğiniz işlemleri gerçekleştirin
-		console.log('Seçilen Sayı:', number);
-
-		// Modal'ı kapat
 		handleAddCloseModal();
 	};
 
@@ -66,8 +59,6 @@ const ProfileScreen = () => {
 	};
 
 	const handleRemoveConfirm = () => {
-
-		// Modal'ı kapat
 		handleRemoveCloseModal();
 	};
 
@@ -79,10 +70,10 @@ const ProfileScreen = () => {
 				<View style={styles.symbolSection}>
 					<Text style={styles.symbolLabel}>Semboller</Text>
 					{userProfile.symbols.map((symnbol, index) => (
-						<TouchableOpacity key={index} 
-										style={styles.symbolItem}
-										onLongPress={() => handleRemoveOpenModal(symnbol.name)}
-										activeOpacity={1}
+						<TouchableOpacity key={index}
+							style={styles.symbolItem}
+							onLongPress={() => handleRemoveOpenModal(symnbol.name)}
+							activeOpacity={1}
 						>
 							<Text style={styles.symbolItemText}>
 								{symnbol.name}: ₺{symnbol.value}

@@ -20,13 +20,16 @@ const LoginScreen = ({ navigation }) => {
 		});
 	}
 
+	const register = () => {
+		navigation.navigate('RegisterScreen');
+	}
+
 	const [errorMessage, setErrorMessage] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState();
 
 	const login = () => {
 		if (email !== "" && password !== "") {
-			console.log(password);
 			signInWithEmailAndPassword(auth, email, password)
 				.then((userCredential) => {
 					navigation.navigate('MyTabs', {
@@ -40,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
 					setErrorMessage(error.message)
 				});
 		} else {
-			setErrorMessage("Please enter an email and password");
+			setErrorMessage("Lütfen, e-posta adresi ve şifre giriniz!");
 		}
 	}
 
@@ -70,6 +73,9 @@ const LoginScreen = ({ navigation }) => {
 				<TouchableOpacity style={styles.loginButton} onPress={login}>
 					<Text style={styles.buttonText}>Giriş Yap</Text>
 				</TouchableOpacity>
+				<TouchableOpacity style={styles.loginButton} onPress={register}>
+					<Text style={styles.buttonText}>Kayıt Ol</Text>
+				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
 	);
@@ -80,7 +86,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#597E52', // Arka plan rengi
+		backgroundColor: '#597E52',
 	},
 	title: {
 		fontSize: 24,
@@ -99,20 +105,20 @@ const styles = StyleSheet.create({
 	input: {
 		height: 40,
 		width: 300,
-		borderColor: '333',
+		borderColor: '#333',
 		borderWidth: 1,
 		padding: 10,
-		backgroundColor: '#FFFFEC', // Input arka plan rengi
+		backgroundColor: '#FFFFEC',
 	},
 	loginButton: {
-		backgroundColor: 'tomato', // Buton rengi
+		backgroundColor: 'tomato',
 		padding: 15,
 		borderRadius: 10,
 		marginTop: 20,
 		width: 300,
 	},
 	buttonText: {
-		color: 'FFFFEC', // Buton metin rengi
+		color: '#FFFFEC',
 		fontSize: 16,
 		fontWeight: 'bold',
 		textAlign: 'center',

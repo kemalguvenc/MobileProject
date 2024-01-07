@@ -5,7 +5,6 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const NotificationScreen = () => {
-	// Bildirim verileri (örnek, gerçek bildirim servisinden alınacak)
 	const notifications = [
 		{
 			id: '1',
@@ -34,13 +33,12 @@ const NotificationScreen = () => {
 	};
 
 	const clearNotifications = () => {
-		// Bildirimleri temizleme işlemleri burada yapılır
-		// Şu anda sadece basit bir uyarı mesajı gösteriyoruz
 		alert('Bildirimler temizlendi!');
 	};
 
 	const [isVisible, setIsVisible] = useState(false);
 	const [number, setNumber] = useState('');
+	const [symbol, setSymbol] = useState('');
 
 	const handleOpenModal = () => {
 		setIsVisible(true);
@@ -51,74 +49,66 @@ const NotificationScreen = () => {
 	};
 
 	const handleConfirm = () => {
-		// Burada yapmak istediğiniz işlemleri gerçekleştirin
-		console.log('Seçilen Sayı:', number);
-
-		// Modal'ı kapat
 		handleCloseModal();
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollView>
-				<View>
-					<Text style={styles.title}>Bildirimler</Text>
-					{notifications.length === 0 ? (
-						<Text style={styles.noNotificationText}>Henüz bildirim yok.</Text>
-					) : (
-						<FlatList
-							data={notifications}
-							keyExtractor={(item) => item.id}
-							renderItem={({ item }) => (
-								<View style={styles.notificationItem}>
-									<Text style={styles.notificationText}>{item.message}</Text>
-								</View>
-							)}
-						/>
-					)}
-					<TouchableOpacity style={styles.clearButton} onPress={clearNotifications}>
-						<Text style={styles.clearButtonText}>Bildirimleri Temizle</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.clearButton} onPress={handleOpenModal}>
-						<Text style={styles.clearButtonText}>Uyarı Oluştur</Text>
-					</TouchableOpacity>
-				</View>
+			<View>
+				<Text style={styles.title}>Bildirimler</Text>
+				{notifications.length === 0 ? (
+					<Text style={styles.noNotificationText}>Henüz bildirim yok.</Text>
+				) : (
+					<FlatList
+						data={notifications}
+						keyExtractor={(item) => item.id}
+						renderItem={({ item }) => (
+							<View style={styles.notificationItem}>
+								<Text style={styles.notificationText}>{item.message}</Text>
+							</View>
+						)}
+					/>
+				)}
+				<TouchableOpacity style={styles.clearButton} onPress={clearNotifications}>
+					<Text style={styles.clearButtonText}>Bildirimleri Temizle</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.clearButton} onPress={handleOpenModal}>
+					<Text style={styles.clearButtonText}>Uyarı Oluştur</Text>
+				</TouchableOpacity>
+			</View>
 
-				<Modal isVisible={isVisible} onBackdropPress={handleCloseModal}>
-					<View style={styles.modalContainer}>
-						<Text style={styles.modalTitle}>Uyarı</Text>
-						<TextInput
-							style={styles.input}
-							placeholder="Sembol"
-							keyboardType="string"
-							onChangeText={(value) => setNumber(value)}
-						/>
-						<TextInput
-							style={styles.input}
-							placeholder="Miktar"
-							keyboardType="numeric"
-							onChangeText={(value) => setNumber(value)}
-						/>
-						<ModalDropdown
-							style={styles.input}
-							options={dropdownOptions}
-							onSelect={handleDropdownSelect}
-							defaultValue={"Seçenek Seçiniz"}
-							textStyle={{ fontSize: 16 }}
-							dropdownTextStyle={{ fontSize: 16 }}
-						/>
-						<View style={styles.buttonContainer}>
-							<TouchableOpacity style={styles.cancelButton} onPress={handleCloseModal}>
-								<Text style={styles.buttonText}>İptal</Text>
-							</TouchableOpacity>
-							<TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
-								<Text style={styles.buttonText}>Onayla</Text>
-							</TouchableOpacity>
-						</View>
+			<Modal isVisible={isVisible} onBackdropPress={handleCloseModal}>
+				<View style={styles.modalContainer}>
+					<Text style={styles.modalTitle}>Uyarı</Text>
+					<TextInput
+						style={styles.input}
+						placeholder="Sembol"
+						onChangeText={setSymbol}
+					/>
+					<TextInput
+						style={styles.input}
+						placeholder="Miktar"
+						keyboardType="numeric"
+						onChangeText={setNumber}
+					/>
+					<ModalDropdown
+						style={styles.input}
+						options={dropdownOptions}
+						onSelect={handleDropdownSelect}
+						defaultValue={"Seçenek Seçiniz"}
+						textStyle={{ fontSize: 16 }}
+						dropdownTextStyle={{ fontSize: 16 }}
+					/>
+					<View style={styles.buttonContainer}>
+						<TouchableOpacity style={styles.cancelButton} onPress={handleCloseModal}>
+							<Text style={styles.buttonText}>İptal</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
+							<Text style={styles.buttonText}>Onayla</Text>
+						</TouchableOpacity>
 					</View>
-				</Modal>
-
-			</ScrollView>
+				</View>
+			</Modal>
 		</SafeAreaView>
 	);
 };
@@ -127,13 +117,13 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
-		backgroundColor: '#597E52', // Açık gri arka plan
+		backgroundColor: '#597E52',
 	},
 	title: {
 		fontSize: 24,
 		fontWeight: 'bold',
 		marginBottom: 20,
-		color: '#333', // Koyu gri renk
+		color: '#333',
 		textAlign: 'center',
 	},
 	noNotificationText: {
@@ -149,10 +139,10 @@ const styles = StyleSheet.create({
 	},
 	notificationText: {
 		fontSize: 16,
-		color: '#333', // Koyu gri renk
+		color: '#333',
 	},
 	clearButton: {
-		backgroundColor: 'tomato', // Turuncu renk
+		backgroundColor: 'tomato',
 		padding: 15,
 		borderRadius: 10,
 		marginTop: 20,

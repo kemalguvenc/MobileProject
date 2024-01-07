@@ -11,8 +11,6 @@ const EditProfileScreen = ({ navigation }) => {
 	const [password, setPassword] = useState('');
 
 	const handleSaveChanges = () => {
-		// Burada değişikliklerin kaydedilmesi işlemleri yapılabilir (örneğin bir veritabanına güncelleme).
-		// Ancak bu örnekte sadece state değerlerini güncelliyoruz.
 		alert('Değişiklikler kaydedildi!');
 	};
 
