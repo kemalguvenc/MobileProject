@@ -1,28 +1,60 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
-const LoginScreen = () => {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+const LoginScreen = ({ navigation }) => {
 
-	const handleLogin = () => {
-		// Giriş işlemleri burada gerçekleştirilebilir
-		console.log('Kullanıcı Adı:', username);
-		console.log('Şifre:', password);
-	};
+	if (auth.currentUser) {
+		navigation.navigate('MyTabs', {
+			screen: 'ProfileScreen',
+		});
+	} else {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				navigation.navigate('MyTabs', {
+					screen: 'ProfileScreen',
+				});
+			}
+		});
+	}
+
+	const [errorMessage, setErrorMessage] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState();
+
+	const login = () => {
+		if (email !== "" && password !== "") {
+			console.log(password);
+			signInWithEmailAndPassword(auth, email, password)
+				.then((userCredential) => {
+					navigation.navigate('MyTabs', {
+						screen: 'ProfileScreen',
+					});
+					setErrorMessage("");
+					setEmail("");
+					setPassword("");
+				})
+				.catch((error) => {
+					setErrorMessage(error.message)
+				});
+		} else {
+			setErrorMessage("Please enter an email and password");
+		}
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<View>
 				<Text style={styles.title}>Hoş Geldiniz!</Text>
 				<View style={styles.inputContainer}>
-					<Text style={styles.label}>Kullanıcı Adı:</Text>
+					<Text style={styles.label}>E-Posta Adı:</Text>
 					<TextInput
 						style={styles.input}
-						placeholder="Kullanıcı Adınızı Girin"
-						value={username}
-						onChangeText={(text) => setUsername(text)}
+						placeholder="E-Posta Adresini Giriniz"
+						value={email}
+						onChangeText={setEmail}
 					/>
 				</View>
 				<View style={styles.inputContainer}>
@@ -32,10 +64,10 @@ const LoginScreen = () => {
 						placeholder="Şifrenizi Girin"
 						secureTextEntry
 						value={password}
-						onChangeText={(text) => setPassword(text)}
+						onChangeText={setPassword}
 					/>
 				</View>
-				<TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+				<TouchableOpacity style={styles.loginButton} onPress={login}>
 					<Text style={styles.buttonText}>Giriş Yap</Text>
 				</TouchableOpacity>
 			</View>

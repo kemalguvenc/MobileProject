@@ -1,8 +1,22 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { auth } from "../firebase";
+import { signOut } from 'firebase/auth';
 
 const ProfileScreen = ({ navigation }) => {
+
+	if (!auth.currentUser)
+		navigation.navigate("LoginScreen");
+
+	const logout = () => {
+		signOut(auth).then(() => {
+			navigation.navigate('MyTabs', {
+				screen: 'HomeScreen',
+			});
+		});
+	}
+
 	// Profil verileri (örnek, gerçek veritabanından alınacak)
 	const userProfile = {
 		firstName: 'Ahmet',
@@ -30,6 +44,9 @@ const ProfileScreen = ({ navigation }) => {
 				</View>
 				<TouchableOpacity style={styles.editButton} onPress={handleEditProfile}>
 					<Text style={styles.buttonText}>Profili Düzenle</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.editButton} onPress={logout}>
+					<Text style={styles.buttonText}>Çıkış</Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>

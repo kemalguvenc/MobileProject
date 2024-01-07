@@ -14,16 +14,6 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PopUp from './screens/Pop-up';
 
-const firebaseConfig = {
-	apiKey: 'your-api-key',
-	authDomain: 'your-auth-domain',
-	databaseURL: 'your-database-url',
-	projectId: 'your-project-id',
-	storageBucket: 'your-storage-bucket',
-	messagingSenderId: 'your-messaging-sender-id',
-	appId: 'your-app-id',
-};
-
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -88,6 +78,11 @@ export default function App() {
 				<Stack.Screen
 					name="EditProfileScreen"
 					component={EditProfileScreen}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="LoginScreen"
+					component={LoginScreen}
 					options={{ headerShown: false }}
 				/>
 			</Stack.Navigator>
